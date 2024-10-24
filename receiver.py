@@ -1,10 +1,12 @@
 import time
 import sys
+import threading
 from scapy.all import sniff, ICMP, IP
 
 last_packet_time = None
 received_bits = []
-final_message = "" 
+final_message = ""
+timeout_duration = 20
 
 def bits_to_ascii(bits):
     byte = ''.join(bits)
@@ -28,7 +30,6 @@ def packet_handler(packet, target_ip):
                 print(f"Received packet with 2 seconds delay (bit 1)")
                 received_bits.append('1')
 
-
             if len(received_bits) >= 8:
                 byte_bits = received_bits[:8]
                 ascii_char = bits_to_ascii(byte_bits)
@@ -38,9 +39,21 @@ def packet_handler(packet, target_ip):
 
         last_packet_time = current_time
 
+def timeout_monitor():
+    global last_packet_time, final_message
+    while True:
+        if last_packet_time is not None:
+            current_time = time.time()
+            if current_time - last_packet_time > timeout_duration:
+                print(f"No ICMP packets received in the last {timeout_duration} seconds.")
+                print(f"Final message: {final_message}")
+                sys.exit(1)
+        time.sleep(1)
+
 def main(target_ip):
     print(f"Listening for ICMP packets directed to {target_ip}...")
-
+    monitor_thread = threading.Thread(target=timeout_monitor, daemon=True)
+    monitor_thread.start()
     sniff(filter=f"icmp and dst host {target_ip}", prn=lambda pkt: packet_handler(pkt, target_ip))
 
 if __name__ == "__main__":
