@@ -1,12 +1,32 @@
 <!DOCTYPE html>
 <html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    </head>
 <body>
-    <h1>Witaj na stronie</h1>
-    <p><a href="{{ url_for('exercise_1') }}">Zadanie 1</a></p>
+    <div class="help-icon">
+        <span class="tooltip-text">
+            N!GGER5
+        </span>
+        ?
+    </div>
+    <div class="container">
+        <h1>Steganografia</h1>
+        <h2>Metody wybrane z publikacji naukowych:</h2>
+        <br />
+        <p><a href="{{ url_for('method_1') }}">1. Metoda oparta o pole TTL</a></p>
+        <p><a href="{{ url_for('method_1') }}">2. Metoda oparta o interwały czasowe</a></p>
+        <p><a href="{{ url_for('method_1') }}">3. Metoda oparta o odpowiedzi zainfekowanego DNS</a></p>
+        <p><a href="{{ url_for('method_1') }}">4. Metoda oparta o numer portu nadawcy</a></p>
+        <p><a href="{{ url_for('method_1') }}">5. ???</a></p>
+        <br />
+        <h2>Metody autorskie:</h2>
+        <p><a href="{{ url_for('method_1') }}">6. ???</a></p>
+        <p><a href="{{ url_for('method_1') }}">7. ???</a></p>
+    </div>
 </body>
 </html>
