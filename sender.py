@@ -1,37 +1,38 @@
-import time
+import socket
+import random
 import sys
-from scapy.all import IP, ICMP, send
 
-def load_bits(bits_file):
-    with open(bits_file, 'r') as f:
-        bits = f.read().strip()
+def read_bits_from_file(filename):
+    with open(filename, 'r') as file:
+        bits = file.read().strip()
     return bits
 
-def send_icmp_packet(ip_address):
-    packet = IP(dst=ip_address) / ICMP()
-    send(packet, verbose=False)
+def send_packet(client_socket, server_address, bit):
+    if bit == '1':
+        data_size_bits = random.randint(2000, 2500)
+    else:
+        data_size_bits = random.randint(500, 1500)
 
-def main(ip_address, bits_file):
-    bits = load_bits(bits_file)
-    send_icmp_packet(ip_address)
+    data_size_bytes = data_size_bits // 8
+    data = b'x' * data_size_bytes
+
+    client_socket.sendto(data, server_address)
+    print(f"Sent bit {bit} as packet size {data_size_bits} bits (actual bytes: {data_size_bytes})")
+
+def start_client(server_host, server_port, filename):
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    server_address = (server_host, server_port)
+    
+    bits = read_bits_from_file(filename)
+
     for bit in bits:
-        if bit == '1':
-            time.sleep(2)
-            print(f"Sending ICMP packet to {ip_address} after 2s delay (bit = 1).")
-            send_icmp_packet(ip_address)
-        elif bit == '0':
-            time.sleep(1)
-            print(f"Sending ICMP packet to {ip_address} after 1s delay (bit = 0).")
-            send_icmp_packet(ip_address)
-        else:
-            print(f"Invalid bit: {bit}, skipping.")
+        send_packet(client_socket, server_address, bit)
+
+    client_socket.close()
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python script.py <remote_ip> <bits_file>")
-        sys.exit(1)
-
-    remote_ip = sys.argv[1]
-    bits_file = sys.argv[2]
-
-    main(remote_ip, bits_file)
+    server_host = sys.argv[1]
+    server_port = int(sys.argv[2])
+    filename = sys.argv[3]
+    
+    start_client(server_host, server_port, filename)
