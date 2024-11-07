@@ -8,7 +8,7 @@ Steganografia bazująca na interwałach czasowych
 Uruchomienie nasłuchiwania serwera:
 
 ```
-sudo python3 receiver.py <adres ip serwera>
+sudo python3 receiver.py <adres ip serwera> <interfejs sieciowy>
 ```
 
 Wysyłanie wiadomości ukrytym kanałem:
