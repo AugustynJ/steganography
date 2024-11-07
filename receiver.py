@@ -50,16 +50,17 @@ def timeout_monitor():
                 sys.exit(1)
         time.sleep(1)
 
-def main(target_ip):
-    print(f"Listening for ICMP packets directed to {target_ip}...")
+def main(target_ip, interface):
+    print(f"Listening for ICMP packets directed to {target_ip} on interface {interface}...")
     monitor_thread = threading.Thread(target=timeout_monitor, daemon=True)
     monitor_thread.start()
-    sniff(filter=f"icmp and dst host {target_ip}", prn=lambda pkt: packet_handler(pkt, target_ip))
+    sniff(filter=f"icmp and dst host {target_ip}", iface=interface, prn=lambda pkt: packet_handler(pkt, target_ip))
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python client.py <your_ip>")
+    if len(sys.argv) != 3:
+        print("Usage: python client.py <your_ip> <interface>")
         sys.exit(1)
 
     target_ip = sys.argv[1]
-    main(target_ip)
+    interface = sys.argv[2]
+    main(target_ip, interface)
