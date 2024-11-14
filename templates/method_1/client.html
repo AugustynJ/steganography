@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    </head>
+<body>
+    <div class="help-icon">
+        <span class="tooltip-text">
+            Help page
+        </span>
+        ?
+    </div>
+    <div class="container">
+        <div>
+            <h1>Wpisz wiadomość aby wysłać ją do serwera:<br /></h1>
+            <div>
+                <form action="/method_1/client" method="POST">
+                    <br />
+                    <label for="message">Wiadomość:</label>
+                    <input type="text" id="message" name="message" required>
+                    <label for="ip">Adres IP:</label>
+                    <input type="text" id="ip" name="ip" value="127.0.0.1" required><br /><br />
+                    <button class="button", type="submit">Wyślij</button>
+                </form>
+                <p>{{ response }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

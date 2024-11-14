@@ -28,5 +28,5 @@ def handle_packets(iface: str):
           prn=read_packet, iface=iface, count=64, timeout=10)
     return ttls_to_msg(ttl_values)
 
-        
-print(f"Message from user: {handle_packets(INTERFACE)}")
+if __name__ == "__main__":
+    print(f"Message from user: {handle_packets(INTERFACE)}")

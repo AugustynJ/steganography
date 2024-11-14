@@ -15,7 +15,7 @@ def send_packet(ip: str, ttl: int):
 
     packet = ip_packet/tcp_packet
     # packet.show()
-    send(packet)
+    send(packet, verbose=0)
     return
 
 def read_packet(packet):
@@ -28,7 +28,6 @@ def handle_packet(iface: str):
 
 def compute_ttl_values(message: str):
     bits = bytes_to_bits(message.encode())
-    print(bits)
     ttl_list = []
     for i in range (0, len(bits), 4):
         number = int(bits[i:i+4], 2)
@@ -37,8 +36,6 @@ def compute_ttl_values(message: str):
 
 def send_message(message: int, ip: str):
     ttl_list = compute_ttl_values(message)
-    print(ttl_list)
     for element in ttl_list:
         send_packet(ip, element)
 
-send_message("HEJ", IP_DST)

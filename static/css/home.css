@@ -92,7 +92,7 @@ a:visited {
 }
 
 /* Stylizacja przycisków */
-.button {
+.button{
     display: inline-block;
     padding: 10px 20px;
     background-color: #007bff;
@@ -106,4 +106,9 @@ a:visited {
 
 .button:hover {
     background-color: #0056b3;
+}
+
+form label, form button {
+    display: block;
+    margin-bottom: 10px;
 }

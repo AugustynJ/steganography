@@ -15,10 +15,12 @@
         ?
     </div>
     <div class="container">
-        <div class="buttons">
+        <div>
             <h1>Wybierz rolę:</h1>
-            <a href="{{ url_for('method_1_client') }}" class="button">Klient</a>
-            <a href="{{ url_for('method_1_server') }}" class="button">Server</a>
+            <div class="buttons">
+                <a href="{{ url_for('method_1_client') }}" class="button">Klient</a>
+                <a href="{{ url_for('method_1_server') }}" class="button">Server</a>
+            </div>
         </div>
     </div>
 </body>
