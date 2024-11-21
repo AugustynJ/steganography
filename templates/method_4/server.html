@@ -16,18 +16,18 @@
     </div>
     <div class="container">
         <div>
-            <h1>Nasłuchuję obecnie na interfejsie {{ iface }}:<br /></h1>
+            <h1>Nasłuchuję obecnie na IP {{ ip }}:<br /></h1>
             <div>
-                <form action="/method_1/server" method="POST">
+                <form action="/method_4/server" method="POST">
                     <br />
-                    <label for="iface">Interfejs do nasłuchwiania:</label>
-                    <input type="text" id="iface" name="iface" required>
+                    <label for="ip">IP do nasłuchwiania:</label>
+                    <input type="text" id="ip" name="ip" required>
                     <button class="button" type="submit">Rozpocznij</button>
                 </form>
                 <p>{{ response }}</p>
             </div>
         </div>
-        <a href="/method_1">Powrót</a>
+        <a href="/method_4">Powrót</a>
     </div>
 </body>
 </html>

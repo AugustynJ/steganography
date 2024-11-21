@@ -4,6 +4,9 @@ import os
 import TTL.listener
 import TTL.sender
 
+import port_number.sender
+import port_number.listener
+
 app = Flask(__name__)
 template_dir = os.path.relpath('./templates')
 
@@ -16,7 +19,7 @@ def home():
     return render_template('home.html')
 
 
-
+# TTL
 @app.route('/method_1')
 def method_1():
     return render_template('method_1.html')
@@ -87,20 +90,43 @@ def method_3_server():
     return render_template('method_3/server.html')
 
 
-
+# port number
 @app.route('/method_4')
 def method_4():
     return render_template('method_4.html')
 
 @app.route('/method_4/client', methods=['GET', 'POST'])
 def method_4_client():
-
-    return render_template('method_4/client.html')
+    response = ""
+    message = ""
+    if request.method == 'POST':
+        message = request.form['message']
+        ip = request.form['ip']
+        try:
+            if message != "" and ip != "":
+                port_number.sender.send_message(message, 4444, ip)
+                response = "Wiadomość została wysłana!"
+        
+        except Exception as e:
+            response = f"Error: {e}"
+    
+    return render_template('method_4/client.html', response=response)
 
 @app.route('/method_4/server', methods=['GET', 'POST'])
 def method_4_server():
+    ip = "127.0.0.1"
+    response = ""
+    if request.method == 'POST':
+        if ip in request.form:
+            ip = request.form['ip']
 
-    return render_template('method_4/server.html')
+    try:
+        response = port_number.listener.receive_message(4444, ip)
+        
+    except Exception as e:
+        response = f"Error: {e}"
+
+    return render_template('method_4/server.html', ip=ip, response=response)
 
 
 
