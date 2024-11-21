@@ -10,20 +10,24 @@
 <body>
     <div class="help-icon">
         <span class="tooltip-text">
-            Wybierz rolę - klient lub serwer
+            Help page
         </span>
         ?
     </div>
     <div class="container">
         <div>
-            <h1>Wybierz rolę:</h1>
-            <div class="buttons">
-                <a href="{{ url_for('method_1_client') }}" class="button">Klient</a>
-                <a href="{{ url_for('method_1_server') }}" class="button">Server</a>
+            <h1>Nasłuchuję obecnie na interfejsie {{ iface }}:<br /></h1>
+            <div>
+                <form action="/method_1/server" method="POST">
+                    <br />
+                    <label for="iface">Interfejs do nasłuchwiania:</label>
+                    <input type="text" id="iface" name="iface" required>
+                    <button class="button" type="submit">Rozpocznij</button>
+                </form>
+                <p>{{ response }}</p>
             </div>
         </div>
-        <br />
-        <a href="/">Powrót</a>
+        <a href="/method_1">Powrót</a>
     </div>
 </body>
 </html>
