@@ -24,6 +24,7 @@ def method_1():
 @app.route('/method_1/client', methods=['GET', 'POST'])
 def method_1_client():
     response = ""
+    message = ""
     if request.method == 'POST':
         message = request.form['message']
         ip = request.form['ip']
@@ -41,9 +42,12 @@ def method_1_client():
 def method_1_server():
     iface = "lo"
     response = ""
+    if request.method == 'POST':
+        if iface in request.form:
+            iface = request.form['iface']
 
     try:
-        pass
+        response = TTL.listener.handle_packets(iface, 2000)
         
     except Exception as e:
         response = f"Error: {e}"
@@ -53,7 +57,7 @@ def method_1_server():
 
 
 def start_app():
-    app.run(host="127.0.0.1", port=5000, debug=False)
+    app.run(host="0.0.0.0", port=5000, debug=True)
 
 if __name__ == "__main__":
     start_app()
