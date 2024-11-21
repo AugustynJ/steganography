@@ -7,6 +7,9 @@ import TTL.sender
 import port_number.sender
 import port_number.listener
 
+import ports_time.client
+import ports_time.server
+
 app = Flask(__name__)
 template_dir = os.path.relpath('./templates')
 
@@ -145,20 +148,43 @@ def method_5_server():
     return render_template('method_5/server.html')
 
 
-
+# port + time
 @app.route('/method_6')
 def method_6():
     return render_template('method_6.html')
 
 @app.route('/method_6/client', methods=['GET', 'POST'])
 def method_6_client():
-
-    return render_template('method_6/client.html')
+    response = ""
+    message = ""
+    if request.method == 'POST':
+        message = request.form['message']
+        ip = request.form['ip']
+        try:
+            if message != "" and ip != "":
+                ports_time.client.send_msg_to_server(message.encode(), 42000, 3, 1026, 65537, 0.1)
+                response = "Wiadomość została wysłana!"
+        
+        except Exception as e:
+            response = f"Error: {e}"
+    
+    return render_template('method_6/client.html', response=response)
 
 @app.route('/method_6/server', methods=['GET', 'POST'])
 def method_6_server():
+    ip = "127.0.0.1"
+    response = ""
+    if request.method == 'POST':
+        if ip in request.form:
+            ip = request.form['ip']
 
-    return render_template('method_6/server.html')
+    try:
+        response = ports_time.server.reading_msg_from_client(5000)
+        
+    except Exception as e:
+        response = f"Error: {e}"
+
+    return render_template('method_6/server.html', ip=ip, response=response)
 
 
 
