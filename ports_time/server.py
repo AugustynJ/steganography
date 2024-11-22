@@ -36,6 +36,7 @@ def reading_msg_from_client (last_port: int):
     curr_byte = []
     while True:
         next_port = compute_next_port(last_port)
+        print("s", next_port)
         
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -55,9 +56,8 @@ def reading_msg_from_client (last_port: int):
             single_byte = ''.join(str(bit) for bit in curr_byte)
             single_byte = bytes([int(single_byte, 2)])
             if single_byte == b'\x00':
-                print(f"Message from client: {message}")
                 s.close()
-                return                   # program ends
+                return message.decode()                   # program ends
             else:
                 message += single_byte
             curr_byte = []

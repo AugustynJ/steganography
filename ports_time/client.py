@@ -42,7 +42,7 @@ def send_msg_to_server (message: bytes, last_port: int, factor: int, delta: int,
     for bit in msg_bits:
         next_port = compute_next_port(last_port, factor, delta, MOD)
 
-        print(next_port)
+        print("c", next_port)
         if bit == 0:
             time.sleep(TIMEOUT)
             last_port = next_port

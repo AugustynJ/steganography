@@ -162,7 +162,9 @@ def method_6_client():
         ip = request.form['ip']
         try:
             if message != "" and ip != "":
-                ports_time.client.send_msg_to_server(message.encode(), 42000, 3, 1026, 65537, 0.1)
+                p_0, factor, delta, MOD, TIMEOUT = ports_time.client.recv_initial_values()
+                print(p_0, factor, delta, MOD, TIMEOUT)
+                ports_time.client.send_msg_to_server(message.encode(), p_0, factor, delta, MOD, TIMEOUT)
                 response = "Wiadomość została wysłana!"
         
         except Exception as e:
@@ -179,7 +181,9 @@ def method_6_server():
             ip = request.form['ip']
 
     try:
-        response = ports_time.server.reading_msg_from_client(5000)
+        init_values = {"p_0": 42000, "factor": 3, "delta": 1026, "MOD": 65537, "TIMEOUT": 0.1}
+        ports_time.server.send_initial_values(init_values)
+        response = ports_time.server.reading_msg_from_client(42000)
         
     except Exception as e:
         response = f"Error: {e}"

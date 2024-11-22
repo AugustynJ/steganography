@@ -21,10 +21,10 @@
                 <form action="/method_1/server" method="POST">
                     <br />
                     <label for="iface">Interfejs do nasłuchwiania:</label>
-                    <input type="text" id="iface" name="iface" required>
+                    <input type="text" id="iface" name="iface" value="lo" required>
                     <button class="button" type="submit">Rozpocznij</button>
                 </form>
-                <p>{{ response }}</p>
+                <p>Odebrano wiadomość: {{ response }}</p>
             </div>
         </div>
         <a href="/method_1">Powrót</a>
