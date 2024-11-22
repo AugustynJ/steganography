@@ -7,6 +7,9 @@ import TTL.sender
 import port_number.sender
 import port_number.listener
 
+import size.sender
+import size.receiver
+
 import ports_time.client
 import ports_time.server
 
@@ -53,7 +56,7 @@ def method_1_server():
             iface = request.form['iface']
 
     try:
-        response = TTL.listener.handle_packets(iface, 2000)
+        response = TTL.listener.handle_packets(iface, 1111)
         
     except Exception as e:
         response = f"Error: {e}"
@@ -132,20 +135,46 @@ def method_4_server():
     return render_template('method_4/server.html', ip=ip, response=response)
 
 
-
+# packet size
 @app.route('/method_5')
 def method_5():
     return render_template('method_5.html')
 
 @app.route('/method_5/client', methods=['GET', 'POST'])
 def method_5_client():
-
-    return render_template('method_5/client.html')
+    response = ""
+    message = ""
+    if request.method == 'POST':
+        message = request.form['message']
+        ip = request.form['ip']
+        try:
+            if message != "" and ip != "":
+                bits = ''.join(format(ord(char), '08b') for char in message)
+                with open("size/bits", 'w') as file:
+                    file.write(bits)
+                
+                size.sender.start_client(ip, 5555, "size/bits")
+                response = "Wiadomość została wysłana!"
+        
+        except Exception as e:
+            response = f"Error: {e}"
+    return render_template('method_5/client.html', response=response)
 
 @app.route('/method_5/server', methods=['GET', 'POST'])
 def method_5_server():
+    ip = "127.0.0.1"
+    response = ""
+    if request.method == 'POST':
+        if ip in request.form:
+            ip = request.form['ip']
 
-    return render_template('method_5/server.html')
+    try:
+        response = size.receiver.start_server(ip, 5555)
+        
+    except Exception as e:
+        response = f"Error: {e}"
+
+    return render_template('method_5/server.html', ip=ip, response=response)
 
 
 # port + time

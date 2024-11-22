@@ -6,7 +6,7 @@ import argparse
 
 own_ip = []
 USED_BITS = 4
-port = 2000
+port = 1111
 
 def bytes_to_bits (message: bytes):
     return ''.join(format(byte, '08b') for byte in message)
