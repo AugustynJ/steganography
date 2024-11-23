@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, request
 import os
+import subprocess
 
 import TTL.listener
 import TTL.sender
@@ -15,6 +16,8 @@ import size.receiver
 
 import ports_time.client
 import ports_time.server
+
+import dns_covert_channel.server
 
 app = Flask(__name__)
 template_dir = os.path.relpath('./templates')
@@ -107,7 +110,7 @@ def method_2_server():
     return render_template('method_2/server.html', ip=ip, response=response)
 
 
-
+# DNS AGH flag
 @app.route('/method_3')
 def method_3():
     return render_template('method_3.html')
@@ -115,12 +118,66 @@ def method_3():
 @app.route('/method_3/client', methods=['GET', 'POST'])
 def method_3_client():
 
-    return render_template('method_3/client.html')
+    script_path = os.path.join(os.path.dirname(__file__), "dns", "client.sh")
+    args = [
+    script_path,
+    "-p", "53535",
+    "--server", "127.0.0.1",
+    "--client", "127.0.0.1",
+    "--domains-file", "domains_mixed.csv",
+    "--dns-forwarder", "8.8.8.8",
+    "--resolver-file", "resolver.csv",
+    "--secret-site", "start.stegano.com",
+    "--agh"
+]
+    if request.method == 'POST':
+        ip="127.0.0.1"
+        ip = request.form['ip']
+        try:
+            if ip != "":
+                response = "Rozpoczynanie odpytywania serwera o sekretną wiadomość..."
+                try:
+                    result = subprocess.run(
+                        args,
+                        text=True,  # Wyjście jako stringi, a nie bajty
+                        capture_output=True,  # Przechwycenie stdout i stderr
+                        check=True  # Rzuca wyjątek, jeśli polecenie zakończy się błędem
+                    )
+
+                    # Wyświetlenie wyjścia
+                    print("Message:", result.stdout)
+                    print("Errors:", result.stderr)
+
+                except subprocess.CalledProcessError as e:
+                    print(f"Command failed with return code {e.returncode}")
+                    print(f"Output: {e.output}")
+                    print(f"Errors: {e.stderr}")
+        except Exception as e:
+            response = f"Error: {e}"
+    
+    return render_template('method_3/client.html', ip=ip, message="")
 
 @app.route('/method_3/server', methods=['GET', 'POST'])
 def method_3_server():
+    ip="127.0.0.1"
+    iface="lo"
+    response = ""
+    if request.method == 'POST':
+        iface = request.form.get('iface', iface)
+        message = request.form.get('message', "")
+        
+        try:
+            if message:
+                print("Rozpoczynanie nasłuchiwania serwera DNS.")
+                dns_covert_channel.server.prepare_message(message)
+                print("Zakończono nasłuchiwanie")
+                response = "Przygotowano wiadomość dla klienta. Rozpoczęto nasłuchiwanie"
+            else:
+                response = "Nie podano wiadomości."
+        except Exception as e:
+            response = f"Error: {e}"
+    return render_template('method_3/server.html', ip=ip, iface=iface, response=response)
 
-    return render_template('method_3/server.html')
 
 
 # port number
