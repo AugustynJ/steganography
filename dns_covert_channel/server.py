@@ -186,10 +186,9 @@ def parse_arguments():
 def message_to_bitstring(message: str) -> str:
     return ''.join(f'{ord(char):08b}' for char in message)
 
-def prepare_message(bits_message):
+def prepare_message(bits_message,PORT):
     FORWARDER = "8.8.8.8"
     SPECIAL_CLIENT_IP = "127.0.0.1"
-    PORT = 3333
     bits = message_to_bitstring(bits_message)
     RESOLVER_FILE = "dns_covert_channel/resolver.csv"
     

@@ -16,19 +16,15 @@
     </div>
     <div class="container">
         <div>
-            <h1>Nasłuchuję obecnie na interfejsie {{ iface }}. Wpisz wiadomość do klienta:<br /></h1>
+            <h1>Nasłuchuję obecnie na IP {{ iface }}:<br /></h1>
             <div>
                 <form action="/method_3/server" method="POST">
                     <br />
-                    <label for="iface">Interfejs do nasłuchwiania:</label>
-                    <input type="text" id="iface" name="iface" value="lo" required>
-                    
-                    <label for="message">Wiadomość:</label>
-                    <input type="text" id="message" name="message" placeholder="Wpisz wiadomość" required>
-                    
+                    <label for="ip">Adres IP do nasłuchwiania:</label>
+                    <input type="text" id="ip" name="ip" required>
                     <button class="button" type="submit">Rozpocznij</button>
                 </form>
-                <p>Wysłano wiadomość.</p>
+                <p>Odebrano wiadomość: {{ response }}</p>
             </div>
         </div>
         <a href="/method_3">Powrót</a>
