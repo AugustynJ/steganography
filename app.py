@@ -4,6 +4,9 @@ import os
 import TTL.listener
 import TTL.sender
 
+import timing.listener
+import timing.sender
+
 import port_number.sender
 import port_number.listener
 
@@ -64,20 +67,44 @@ def method_1_server():
     return render_template('method_1/server.html', iface=iface, response=response)
 
 
-
+# timing
 @app.route('/method_2')
 def method_2():
     return render_template('method_2.html')
 
 @app.route('/method_2/client', methods=['GET', 'POST'])
 def method_2_client():
+    response = ""
+    message = ""
+    if request.method == 'POST':
+        message = request.form['message']
+        ip = request.form['ip']
+        try:
+            if message != "" and ip != "":
+                timing.sender.send_message(ip, message)
+                response = "Wiadomość została wysłana!"
+        
+        except Exception as e:
+            response = f"Error: {e}"
+    return render_template('method_2/client.html', response=response)
 
-    return render_template('method_2/client.html')
 
 @app.route('/method_2/server', methods=['GET', 'POST'])
 def method_2_server():
+    iface = "lo"
+    ip="127.0.0.1"
+    response = ""
+    if request.method == 'POST':
+        if iface in request.form:
+            iface = request.form['iface']
 
-    return render_template('method_2/server.html')
+    try:
+        response = timing.listener.receive_message(ip, iface)
+        
+    except Exception as e:
+        response = f"Error: {e}"
+
+    return render_template('method_2/server.html', ip=ip, response=response)
 
 
 
