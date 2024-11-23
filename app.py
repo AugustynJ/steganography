@@ -75,6 +75,10 @@ def method_1_server():
 def method_2():
     return render_template('method_2.html')
 
+@app.route('/method_2/help')
+def method_2_help():
+    return render_template('method_2/help.html')
+
 @app.route('/method_2/client', methods=['GET', 'POST'])
 def method_2_client():
     response = ""
