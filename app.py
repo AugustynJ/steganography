@@ -36,6 +36,10 @@ def home():
 def method_1():
     return render_template('method_1.html')
 
+@app.route('/method_1/help')
+def method_1_help():
+    return render_template('method_1/help.html')
+
 @app.route('/method_1/client', methods=['GET', 'POST'])
 def method_1_client():
     response = ""
@@ -118,6 +122,10 @@ def method_2_server():
 def method_3():
     return render_template('method_3.html')
 
+@app.route('/method_3/help')
+def method_3_help():
+    return render_template('method_3/help.html')
+
 @app.route('/method_3/client', methods=['GET', 'POST'])
 def method_3_client():
     response = ""
@@ -158,6 +166,10 @@ def method_3_server():
 @app.route('/method_4')
 def method_4():
     return render_template('method_4.html')
+
+@app.route('/method_4/help')
+def method_4_help():
+    return render_template('method_4/help.html')
 
 @app.route('/method_4/client', methods=['GET', 'POST'])
 def method_4_client():
@@ -201,6 +213,10 @@ def method_4_server():
 def method_5():
     return render_template('method_5.html')
 
+@app.route('/method_5/help')
+def method_5_help():
+    return render_template('method_5/help.html')
+
 @app.route('/method_5/client', methods=['GET', 'POST'])
 def method_5_client():
     response = ""
@@ -242,6 +258,10 @@ def method_5_server():
 @app.route('/method_6')
 def method_6():
     return render_template('method_6.html')
+
+@app.route('/method_6/help')
+def method_6_help():
+    return render_template('method_6/help.html')
 
 @app.route('/method_6/client', methods=['GET', 'POST'])
 def method_6_client():
@@ -309,6 +329,10 @@ def method_6_server():
 @app.route('/method_7')
 def method_7():
     return render_template('method_7.html')
+
+@app.route('/method_7/help')
+def method_7_help():
+    return render_template('method_7/help.html')
 
 @app.route('/method_7/client', methods=['GET', 'POST'])
 def method_7_client():

@@ -7,23 +7,21 @@
         <title>Home</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     </head>
-<body>
-    <div class="help-icon">
-        <span class="tooltip-text">
-            Wybierz rolę - klient lub serwer
-        </span>
-        ?
-    </div>
-    <div class="container">
-        <div>
-            <h1>Wybierz rolę:</h1>
-            <div class="buttons">
-                <a href="{{ url_for('method_1_client') }}" class="button">Klient</a>
-                <a href="{{ url_for('method_1_server') }}" class="button">Server</a>
-            </div>
+    <body>
+        <div class="help-icon">
+            <span class="tooltip-text">Pomoc</span>
+            <a href="{{ url_for('method_1_help') }}" class="help-link">?</a>
         </div>
-        <br />
-        <a href="/">Powrót</a>
-    </div>
-</body>
+        <div class="container">
+            <div>
+                <h1>Wybierz rolę:</h1>
+                <div class="buttons">
+                    <a href="{{ url_for('method_1_client') }}" class="button">Klient</a>
+                    <a href="{{ url_for('method_1_server') }}" class="button">Server</a>
+                </div>
+            </div>
+            <br />
+            <a href="/">Powrót</a>
+        </div>
+    </body>
 </html>
