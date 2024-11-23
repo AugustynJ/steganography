@@ -117,45 +117,44 @@ def method_3():
 
 @app.route('/method_3/client', methods=['GET', 'POST'])
 def method_3_client():
-
-    script_path = os.path.join(os.path.dirname(__file__), "dns", "client.sh")
+    response = ""
+    ip="127.0.0.1"
+    script_path = os.path.join(os.path.dirname(__file__), "dns_covert_channel", "client.sh")
     args = [
     script_path,
-    "-p", "53535",
-    "--server", "127.0.0.1",
+    "-p", "3333",
+    "--server", ip,
     "--client", "127.0.0.1",
-    "--domains-file", "domains_mixed.csv",
+    "--domains-file", "dns_covert_channel/domains_mixed.csv",
     "--dns-forwarder", "8.8.8.8",
-    "--resolver-file", "resolver.csv",
+    "--resolver-file", "dns_covert_channel/resolver.csv",
     "--secret-site", "start.stegano.com",
     "--agh"
 ]
     if request.method == 'POST':
-        ip="127.0.0.1"
         ip = request.form['ip']
         try:
-            if ip != "":
+            if ip:
                 response = "Rozpoczynanie odpytywania serwera o sekretną wiadomość..."
                 try:
+                    print("Rozpoczynanie odpytywania serwera o sekretną wiadomość...")
                     result = subprocess.run(
                         args,
-                        text=True,  # Wyjście jako stringi, a nie bajty
-                        capture_output=True,  # Przechwycenie stdout i stderr
-                        check=True  # Rzuca wyjątek, jeśli polecenie zakończy się błędem
+                        text=True,
+                        capture_output=True,
+                        check=True 
                     )
-
-                    # Wyświetlenie wyjścia
-                    print("Message:", result.stdout)
-                    print("Errors:", result.stderr)
+                    print(result.stdout)
 
                 except subprocess.CalledProcessError as e:
                     print(f"Command failed with return code {e.returncode}")
-                    print(f"Output: {e.output}")
-                    print(f"Errors: {e.stderr}")
+                    print(e.output)
+                    print(e.stderr)
+                response=result.stdout
         except Exception as e:
             response = f"Error: {e}"
     
-    return render_template('method_3/client.html', ip=ip, message="")
+    return render_template('method_3/client.html', ip=ip, response=response)
 
 @app.route('/method_3/server', methods=['GET', 'POST'])
 def method_3_server():
