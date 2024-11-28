@@ -15,3 +15,5 @@ a następnie uruchomić serwer komendą:
 /bin/python3 app.py
 ```
 powyższe polecenia należy uruchomić z poziomu admina (sudo).
+
+Autorzy: Jakub Augustyn, Arkadiusz Ryba
