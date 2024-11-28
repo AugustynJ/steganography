@@ -134,7 +134,7 @@ a:hover {
 
 /* Formularz */
 form {
-    text-align: left;
+    text-align: center;
     margin-top: 20px;
 }
 
@@ -175,4 +175,19 @@ form button {
 
 form button:hover {
     background-color: #0056b3;
+}
+
+.section {
+    text-align: left; /* Wyrównaj cały tekst sekcji do lewej */
+    margin: 0 auto;   /* Opcjonalnie wycentruj cały blok sekcji w kontenerze */
+    max-width: 800px; /* Opcjonalnie ogranicz szerokość */
+}
+
+.section ol {
+    padding-left: 20px; /* Wcięcie na numerację */
+    list-style-position: inside; /* Opcjonalnie kontroluj pozycję numerów */
+}
+
+.section li {
+    text-align: left; /* Wyrównanie tekstu w liście do lewej */
 }

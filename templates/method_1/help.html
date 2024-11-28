@@ -4,16 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     <title>Pomoc: Metoda oparta o pole TTL</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100%; font-family: "Roboto", Arial, sans-serif; color: #333; }
-        body { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f4f8; }
-        .container { text-align: center; padding: 30px; background-color: #fff; border-radius: 12px; max-width: 700px; width: 100%; }
-        .button { padding: 12px 24px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; font-size: 16px; }
-        .button:hover { background-color: #0056b3; }
-        .buttons { margin-top: 20px; } /* Dodano margines do kontenera przycisku */
-    </style>
 </head>
 <body>
     <div class="container">
@@ -21,9 +13,9 @@
         <div class="section">
             <h2>Ukryty kanał </h2>
             <p>
-                OPIS
+                Kanał przesyła wiadomość poprzez odpowiednią modyfikacje pól TTL w pakietach IP. <br />
             </p>
-        </div>s
+        </div>
         <div class="section">
             <h2>Jak używać?</h2>
             <ol>
